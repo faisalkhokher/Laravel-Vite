@@ -16,7 +16,7 @@ const router = createRouter({
     routes,
 });
 
-router.beforeEach((to, from , next) => {
+router.beforeEach((to, from) => {
     const token = localStorage.getItem("token");
     if (to.meta.Auth && !token) { //auth like your any word of guard that is used in routes
         return { name: "Login" };

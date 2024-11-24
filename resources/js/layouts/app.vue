@@ -19,7 +19,7 @@
                             <router-link class="nav-link" :to="{name:'Register'}" tag="Btn">Register</router-link>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                            <router-link class="nav-link" :to="{name:'Dashboard'}" tag="Btn">Dashboard</router-link>
                         </li>
                     </ul>
                 </div>
