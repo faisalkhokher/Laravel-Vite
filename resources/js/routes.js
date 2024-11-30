@@ -3,12 +3,14 @@ import login from "./pages/login.vue";
 import register from "./pages/register.vue";
 import home from "./pages/home.vue";
 import dashboard from "./pages/dashboard.vue";
+import info from './pages/Info.vue'
 
 const routes = [
     { path: "/", name: "Home", component: home  , meta: { Auth: false } },
     { path: "/login", name: "Login", component: login  , meta: { Auth: false }},
     { path: "/register", name: "Register", component: register , meta: { Auth: false } },
     { path: "/dashboard", name: "Dashboard", component: dashboard , meta: { Auth: true }},
+    { path: "/info", name: "Info", component: info},
 ];
 
 const router = createRouter({

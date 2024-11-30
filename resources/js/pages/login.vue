@@ -11,7 +11,7 @@
                     {{ error.alert }}
                 </div>
 
-                <h1>Login Page</h1>
+                <p class="text-4xl text-danger">{{ $store.getters.getHash.isLoggedOut || "Not Logged In" }} </p>
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Email address</label>
                     <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
@@ -35,12 +35,14 @@
 <script>
 import { reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 export default {
     setup(props) {
 
         const router = useRouter();
         const route = useRoute();
+        const store = useStore();
 
         const form = reactive({
             email: '',
@@ -55,19 +57,28 @@ export default {
             console.log(router, route);
 
             await axios.post('/api/login', form).then((result) => {
-                console.log(result.data);
+
                 const response = result.data;
-                localStorage.removeItem('token');
-                console.log(response.data);
-                response.data ? localStorage.setItem('token', response.data) : null;
+                store.dispatch('updateToken', response.data)
+
                 if (response.success == false) {
                     console.log(response);
                     error.value.alert = response.message;
                 } else {
+                    let object_hash = {
+                        userToken: response.data,
+                        createdAt: Date.now(),
+                        hashCode: "HashCode-" + Date.now(),
+                        isLoggedIn: true,
+                        hasAdminAccess: false
+                    }
+                    console.log(object_hash);
+
+                    store.dispatch('addHash', object_hash)
                     router.push({ name: 'Dashboard' });
                 }
             }).catch((err) => {
-                // alert(err.response.data.message);
+                alert(err);
                 console.log(err);
                 error.value.alert = err.response.data.message;
             });
